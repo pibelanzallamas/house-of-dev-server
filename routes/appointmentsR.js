@@ -1,6 +1,6 @@
 const express = require("express");
 const appointments = express.Router();
-const { Appointments, Properties } = require("../models");
+const { Appointments, Properties, Users } = require("../models");
 
 appointments.post("/register", (req, res) => {
   const { uid, pid, date } = req.body;
@@ -13,6 +13,14 @@ appointments.post("/register", (req, res) => {
     .catch((err) => res.send(err));
 });
 
+//check all
+appointments.get("/all", (req, res) => {
+  Appointments.findAll({ include: [Properties, Users] })
+    .then((all) => res.send(all))
+    .catch((err) => res.send(err));
+});
+
+//check 1 user
 appointments.get("/:uid", (req, res) => {
   const { uid } = req.params;
 
