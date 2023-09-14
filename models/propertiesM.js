@@ -32,7 +32,7 @@ Properties.init(
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
-        len: [20, 150],
+        len: [3, 70],
       },
     },
     categories: {
@@ -74,8 +74,8 @@ Properties.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
-        min: 1000,
-        max: 40000000,
+        min: 10000,
+        max: 1000000,
       },
     },
   },

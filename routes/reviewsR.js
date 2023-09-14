@@ -42,10 +42,10 @@ reviews.get("/users/:uid", (req, res) => {
     .catch((err) => res.send(err));
 });
 
-reviews.delete("/delete", (req, res) => {
-  const { uid, pid } = req.body;
+reviews.delete("/:id", (req, res) => {
+  const { id } = req.params;
 
-  Reviews.destroy({ where: { uid, pid } })
+  Reviews.destroy({ where: { id } })
     .then((filasAfectadas) => {
       if (filasAfectadas > 0) {
         res.sendStatus(200);

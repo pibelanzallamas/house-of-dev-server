@@ -3,29 +3,15 @@ const appointments = express.Router();
 const { Appointments, Properties } = require("../models");
 
 appointments.post("/register", (req, res) => {
-  const { uid, pid, date } = req.body.data;
+  const { uid, pid, date } = req.body;
 
   Appointments.findOrCreate({
-    where: { uid, pid },
-    defaults: { date },
+    where: { date, pid },
+    defaults: { uid },
   })
-    .then(() => res.sendStatus(200))
-    .catch(() => res.sendStatus(400));
+    .then((cita) => res.send(cita))
+    .catch((err) => res.send(err));
 });
-
-appointments.get("/all", (req, res) => {
-  const { uid } = req.query;
-
-  Appointments.findAll({
-    where: { uid },
-    include: Properties,
-    order: [["id", "DESC"]],
-  })
-    .then(() => res.sendStatus(200))
-    .catch(() => res.sendStatus(400));
-});
-
-//de acuerdo a user o a una prop
 
 appointments.get("/:uid", (req, res) => {
   const { uid } = req.params;
@@ -35,24 +21,22 @@ appointments.get("/:uid", (req, res) => {
     .catch((err) => res.send(err));
 });
 
-appointments.get("/prop/:pid", (req, res) => {
-  const { pid } = req.params;
+//check 1 appointment
+appointments.get("/find/one", (req, res) => {
+  const { uid, pid } = req.query;
 
-  Appointments.findAll({ where: { pid }, include: Users })
-    .then((all) => res.send(all))
+  Appointments.findOne({ where: { pid, uid }, include: Properties })
+    .then((date) => res.send(date))
     .catch((err) => res.send(err));
 });
 
-appointments.delete("/delete", (req, res) => {
-  const { uid, pid } = req.body;
+appointments.delete("/:id", (req, res) => {
+  const { id } = req.params;
 
-  Appointments.destroy({ where: { uid, pid } })
+  Appointments.destroy({ where: { id } })
     .then((filasAfectadas) => {
-      if (filasAfectadas > 0) {
-        res.sendStatus(200);
-      } else {
-        res.sendStatus(202);
-      }
+      if (filasAfectadas > 0) res.sendStatus(200);
+      else res.sendStatus(202);
     })
     .catch(() => res.sendStatus(400));
 });
