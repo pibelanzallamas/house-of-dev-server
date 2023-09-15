@@ -15,7 +15,10 @@ appointments.post("/register", (req, res) => {
 
 //check all
 appointments.get("/all", (req, res) => {
-  Appointments.findAll({ include: [Properties, Users] })
+  Appointments.findAll({
+    include: [Properties, Users],
+    order: [["date", "ASC"]],
+  })
     .then((all) => res.send(all))
     .catch((err) => res.send(err));
 });

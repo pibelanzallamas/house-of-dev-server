@@ -46,6 +46,30 @@ properties.get("/all", (req, res) => {
     .catch((err) => res.send(err));
 });
 
+properties.get("/all/recientes", (req, res) => {
+  Properties.findAll({
+    order: [["id", "DESC"]],
+  })
+    .then((all) => res.send(all))
+    .catch((err) => res.send(err));
+});
+
+properties.get("/all/mayor", (req, res) => {
+  Properties.findAll({
+    order: [["price", "DESC"]],
+  })
+    .then((all) => res.send(all))
+    .catch((err) => res.send(err));
+});
+
+properties.get("/all/menor", (req, res) => {
+  Properties.findAll({
+    order: [["price", "ASC"]],
+  })
+    .then((all) => res.send(all))
+    .catch((err) => res.send(err));
+});
+
 properties.get("/:id", (req, res) => {
   const { id } = req.params;
 

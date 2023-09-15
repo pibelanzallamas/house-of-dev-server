@@ -32,7 +32,7 @@ Properties.init(
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
-        len: [3, 70],
+        len: [3, 140],
       },
     },
     categories: {
