@@ -2,6 +2,7 @@ const express = require("express");
 const users = express.Router();
 const { Users } = require("../models");
 const { generateToken, validateToken } = require("../config/tokens.js");
+const transporter = require("../utils/mail");
 
 users.post("/register", (req, res) => {
   const { email, name, password, telephone } = req.body;
@@ -94,6 +95,30 @@ users.delete("/:id", (req, res) => {
   Users.destroy({ where: { id } })
     .then(() => res.sendStatus(200))
     .catch(() => res.sendStatus(400));
+});
+
+users.post("/send/:email", (req, res) => {
+  const { email } = req.params;
+  const { date } = req.body;
+  console.log(date);
+  const mailOptions = {
+    from: "griffin11@ethereal.email",
+    to: email,
+    subject: "House of Dev - Confirmación de Cita",
+    text: "Hola, somos el equipo de House of Dev, queremos confirmarle su cita. ",
+    html: `<h1 style="color: blue;"> Su cita ha sido confirmada!</h1> <p> La fecha reservada es a las  ${
+      date.slice(11, 13) - 3
+    }:${date.slice(14, 16)} hs, el día ${date.slice(8, 10)}/${date.slice(
+      5,
+      7
+    )}/${date.slice(0, 4)}.</p> <p>Esperamos su visita! </p>
+  <p> Haga click <a href="http://localhost:3000">aquí</a> para ingresar a House of Dev. </p> <p>Saludos!</p>`,
+  };
+
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) res.send(err);
+    else res.send(info);
+  });
 });
 
 module.exports = users;
