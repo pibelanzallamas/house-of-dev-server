@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = new Sequelize(
   "housedb",
-  brandon,
+  "brandon",
   "oYJOZG0sw10oTC21HOgICcDa3mh6JhJu",
   {
     host: "dpg-ck4fqqk2kpls73e3ovdg-a",
