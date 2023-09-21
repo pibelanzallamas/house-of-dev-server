@@ -7,7 +7,7 @@ const transporter = require("../utils/mail");
 users.post("/register", (req, res) => {
   const { email, name, password, telephone } = req.body;
 
-  const admins = ["b@gmail.com"];
+  const admins = [process.env.EMAIL_ADMINS];
   const admin = admins.includes(email);
 
   Users.findOrCreate({
@@ -100,7 +100,7 @@ users.delete("/:id", (req, res) => {
 users.post("/send/:email", (req, res) => {
   const { email } = req.params;
   const { date } = req.body;
-  console.log(date);
+
   const mailOptions = {
     from: "griffin11@ethereal.email",
     to: email,
