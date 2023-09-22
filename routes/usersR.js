@@ -97,12 +97,12 @@ users.delete("/:id", (req, res) => {
     .catch(() => res.sendStatus(400));
 });
 
-users.post("/send/:email", (req, res) => {
+users.post("/register/:email", (req, res) => {
   const { email } = req.params;
   const { date } = req.body;
 
   const mailOptions = {
-    from: "griffin11@ethereal.email",
+    from: "brandoncastillo.09@gmail.com",
     to: email,
     subject: "House of Dev - Confirmación de Cita",
     text: "Hola, somos el equipo de House of Dev, queremos confirmarle su cita. ",
@@ -112,7 +112,24 @@ users.post("/send/:email", (req, res) => {
       5,
       7
     )}/${date.slice(0, 4)}.</p> <p>Esperamos su visita! </p>
-  <p> Haga click <a href="http://localhost:3000">aquí</a> para ingresar a House of Dev. </p> <p>Saludos!</p>`,
+   <p>Saludos!</p>`,
+  };
+
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) res.send(err);
+    else res.send(info);
+  });
+});
+
+users.post("/delete/:email", (req, res) => {
+  const { email } = req.params;
+
+  const mailOptions = {
+    from: "brandoncastillo.09@gmail.com",
+    to: email,
+    subject: "House of Dev - Cancelación de Cita",
+    html: `<h1 style="color: blue;"> Su cita ha sido cancelada!</h1> <p> Usted o el propietario ha cancelado la cita. Para más información ingrese al sitio web. </p>
+  </p> <p>Saludos!</p>`,
   };
 
   transporter.sendMail(mailOptions, (err, info) => {
