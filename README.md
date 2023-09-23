@@ -4,3 +4,4 @@
 - instalar dependencias: `npm i`
 - chequear archivo `dotEnv` para remplazar datos
 - correr server: `npm start`
+- [client](https://github.com/pibelanzallamas/house-of-dev-client)
