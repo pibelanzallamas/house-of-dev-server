@@ -4,4 +4,3 @@
 - instalar dependencias: `npm i`
 - chequear archivo `dotEnv` para remplazar datos
 - correr server: `npm start`
-- listo
