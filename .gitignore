@@ -1,3 +1,5 @@
 node_modules
+deploying.txt
 .env
-.deploying.txt
+.DS_Store
+.gitignore
