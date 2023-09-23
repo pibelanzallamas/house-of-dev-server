@@ -2,12 +2,13 @@ const express = require("express");
 const users = express.Router();
 const { Users } = require("../models");
 const { generateToken, validateToken } = require("../config/tokens.js");
+require("dotenv").config();
 const transporter = require("../utils/mail");
 
 users.post("/register", (req, res) => {
   const { email, name, password, telephone } = req.body;
 
-  const admins = [process.env.EMAIL_ADMINS];
+  const admins = ["b@gmail.com"];
   const admin = admins.includes(email);
 
   Users.findOrCreate({
@@ -99,19 +100,27 @@ users.delete("/:id", (req, res) => {
 
 users.post("/register/:email", (req, res) => {
   const { email } = req.params;
-  const { date } = req.body;
+  const { date, place } = req.body;
 
   const mailOptions = {
-    from: "brandoncastillo.09@gmail.com",
+    from: process.env.EMAIL,
     to: email,
-    subject: "House of Dev - Confirmación de Cita",
-    text: "Hola, somos el equipo de House of Dev, queremos confirmarle su cita. ",
-    html: `<h1 style="color: blue;"> Su cita ha sido confirmada!</h1> <p> La fecha reservada es a las  ${
-      date.slice(11, 13) - 3
-    }:${date.slice(14, 16)} hs, el día ${date.slice(8, 10)}/${date.slice(
-      5,
-      7
-    )}/${date.slice(0, 4)}.</p> <p>Esperamos su visita! </p>
+    subject: "Confirmación de Cita - House of Dev",
+    html: `<h1 style="color: blue;"> Su cita en ${
+      place.name
+    } ha sido confirmada!</h1>
+    <img src="${
+      place.images
+    }" style="width: 150px; height: 150px; object-fit: cover; style="border: 1px solid blue; padding: 4px;"/>
+    <p> La fecha reservada es a las  ${date.slice(11, 13) - 3}:${date.slice(
+      14,
+      16
+    )}hs, el día ${date.slice(8, 10)}/${date.slice(5, 7)}/${date.slice(
+      0,
+      4
+    )}. En el dirección ${place.address} en el barrio de ${
+      place.neighborhood
+    }. </p> <p>Esperamos su visita! </p>
    <p>Saludos!</p>`,
   };
 
@@ -125,10 +134,10 @@ users.post("/delete/:email", (req, res) => {
   const { email } = req.params;
 
   const mailOptions = {
-    from: "brandoncastillo.09@gmail.com",
+    from: process.env.EMAIL,
     to: email,
-    subject: "House of Dev - Cancelación de Cita",
-    html: `<h1 style="color: blue;"> Su cita ha sido cancelada!</h1> <p> Usted o el propietario ha cancelado la cita. Para más información ingrese al sitio web. </p>
+    subject: "Cancelación de Cita - House of Dev",
+    html: `<h1 style="color: blue;"> Su cita ha sido!</h1> <p> Usted o el propietario ha cancelado la cita. Para más información ingrese al sitio web. </p>
   </p> <p>Saludos!</p>`,
   };
 
