@@ -8,6 +8,7 @@ const models = require("./models");
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api", routes);
+
 app.use("/api", (req, res) => {
   res.sendStatus(404);
 });
