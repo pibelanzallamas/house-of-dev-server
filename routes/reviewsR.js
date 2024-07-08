@@ -1,6 +1,7 @@
 const express = require("express");
 const reviews = express.Router();
 const reviewsC = require("../controllers/reviewsC");
+const validateUser = require("../middleware/auth");
 
 //crear review
 reviews.post("/register", reviewsC.crearReview);
@@ -14,7 +15,7 @@ reviews.get("/users/:uid", reviewsC.userReview);
 //todas
 reviews.get("/", reviewsC.allReview);
 
-//id
-reviews.delete("/:id", reviewsC.delReview);
+//del rewview
+reviews.delete("/:id", validateUser, reviewsC.delReview);
 
 module.exports = reviews;

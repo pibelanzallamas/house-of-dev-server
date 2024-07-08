@@ -1,10 +1,11 @@
 const express = require("express");
 const properties = express.Router();
 const propertiesC = require("../controllers/propertiesC");
+const validateUser = require("../middleware/auth");
 
 properties.post("/register", propertiesC.crearProp);
 
-properties.get("/all", propertiesC.allProp);
+properties.get("/all", validateUser, propertiesC.allProp);
 
 properties.get("/all/recientes", propertiesC.allReceProp);
 

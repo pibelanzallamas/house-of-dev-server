@@ -38,11 +38,13 @@ propertiesC.crearProp = (req, res) => {
 };
 
 propertiesC.allProp = (req, res) => {
-  Properties.findAll({
-    order: [["id", "ASC"]],
-  })
-    .then((all) => res.send(all))
-    .catch((err) => res.send(err));
+  if (req.user.admin) {
+    Properties.findAll({
+      order: [["id", "ASC"]],
+    })
+      .then((all) => res.send(all))
+      .catch((err) => res.send(err));
+  }
 };
 
 propertiesC.allReceProp = (req, res) => {

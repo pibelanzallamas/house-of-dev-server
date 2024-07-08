@@ -14,12 +14,14 @@ appointmentC.crearApp = (req, res) => {
 };
 
 appointmentC.allApp = (req, res) => {
-  Appointments.findAll({
-    include: [Properties, Users],
-    order: [["date", "ASC"]],
-  })
-    .then((all) => res.send(all))
-    .catch((err) => res.send(err));
+  if (req.user.admin) {
+    Appointments.findAll({
+      include: [Properties, Users],
+      order: [["date", "ASC"]],
+    })
+      .then((all) => res.send(all))
+      .catch((err) => res.send(err));
+  }
 };
 
 appointmentC.checkApp = (req, res) => {

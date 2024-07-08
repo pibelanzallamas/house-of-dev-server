@@ -64,16 +64,19 @@ usersC.modUsuario = (req, res) => {
 
 usersC.delUsuario = (req, res) => {
   const { id } = req.params;
-
-  Users.destroy({ where: { id } })
-    .then(() => res.sendStatus(200))
-    .catch(() => res.sendStatus(400));
+  if (req.user.admin) {
+    Users.destroy({ where: { id } })
+      .then(() => res.sendStatus(200))
+      .catch(() => res.sendStatus(400));
+  }
 };
 
 usersC.allUsuario = (req, res) => {
-  Users.findAll({ order: [["id", "ASC"]] })
-    .then((one) => res.send(one).status(200))
-    .catch((err) => res.send(err).status(400));
+  if (req.user.admin) {
+    Users.findAll({ order: [["id", "ASC"]] })
+      .then((one) => res.send(one).status(200))
+      .catch((err) => res.send(err).status(400));
+  }
 };
 
 usersC.oneUsuario = (req, res) => {
@@ -84,12 +87,8 @@ usersC.oneUsuario = (req, res) => {
     .catch((err) => res.send(err).status(400));
 };
 
-usersC.cookieUsuario = (req, res) => {
-  const token = req.cookies.token;
-  if (!token) return res.sendStatus(401);
-  const { payload } = validateToken(token);
-  if (!payload) return res.sendStatus(401);
-  res.send(payload);
+usersC.meUsuario = (req, res) => {
+  res.send(req.user);
 };
 
 usersC.logoutUsuario = (req, res) => {
