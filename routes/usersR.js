@@ -8,7 +8,7 @@ const transporter = require("../utils/mail");
 users.post("/register", (req, res) => {
   const { email, name, password, telephone } = req.body;
 
-  const admins = ["b@gmail.com"];
+  const admins = ["admin@email.com"];
   const admin = admins.includes(email);
 
   Users.findOrCreate({
